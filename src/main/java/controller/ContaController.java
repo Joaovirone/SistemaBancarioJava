@@ -1,9 +1,6 @@
 package controller;
 
-
-
 import model.Conta;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,25 +13,44 @@ import service.ContaService;
 
 
 @RestController
-@RequestMapping
+@RequestMapping("/contas")
 public class ContaController {
     @Autowired
     private ContaService service;
 
 
     @PostMapping
-    public ResponseEntity<Conta> criarConta(@RequestBody Conta conta){
+    public ResponseEntity<?> criarConta(@RequestBody Conta conta){
         try{
             Conta novaConta = service.criar(conta);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(novaConta);
+
         } catch (IllegalArgumentException e){
+
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
-        return ResponseEntity.ok(service.criar(conta));
+    
     }
-    public ResponseEntity<Conta> apagarConta(@RequestBody Conta conta){
-        return ResponseEntity.ok(service.apagar(conta));
+
+    @GetMapping("/{id}/saldo")
+    public ResponseEntity<?> consultarSaldo(@PathVariable Long id){
+        try{
+            Double saldo = service.consultarSaldo(id);
+            return ResponseEntity.ok(saldo);
+        }catch (RuntimeException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } 
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> apagarConta(@PathVariable Long id){
+        try{
+            service.apagar(id);
+            return ResponseEntity.ok("Conta apagada com sucesso!");
+        } catch (RuntimeException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
     }
