@@ -1,10 +1,14 @@
 package service;
 
-import model.Conta;
-import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import model.Conta;
 import repository.ContaRepository;
+
+//Service: o Coração do Sistema, aqui a gente valida, calcula e aplica as regras de negócio.
+//O Service não sabe o que é HTTP (WEB) e não sabe gerar SQL.
+
 
 @Service
 public class ContaService {

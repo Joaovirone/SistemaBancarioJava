@@ -1,11 +1,16 @@
 package model;
 
+import java.util.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-import java.util.Date;
+//Model: Representa a tabela do banco de dados no ambiente JAVA.
+//As classes aqui devem ser "burras". Ou seja, apenas dados (private attributes) e formas de acessá-los (Getters/Setters)
+//Basicamente construímos uma classe Conta contendo atributos, id, titular, cpf, e etc.
+//Os métodos Getters/Setters manipulam os atributos ou seja, mudam os estados deles.
 
 @Entity
 public class Conta{
