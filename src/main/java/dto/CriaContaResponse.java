@@ -1,6 +1,6 @@
 package dto;
 
-public class CriaContaResponse {
+ class CriaContaResponse {
     
     private String nome;
     private String cpf;
