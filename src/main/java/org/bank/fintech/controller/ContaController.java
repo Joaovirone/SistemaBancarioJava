@@ -2,16 +2,19 @@ package org.bank.fintech.controller;
 
 import org.bank.fintech.dto.DepositoRequest;
 import org.bank.fintech.dto.SaqueRequest;
+import org.bank.fintech.dto.TransferenciaRequest;
 import org.bank.fintech.model.Conta;
 import org.bank.fintech.service.ContaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 
 
@@ -81,14 +84,25 @@ public class ContaController {
         try{
             Double saldo = service.consultarSaldo(id);
             return ResponseEntity.status(HttpStatus.OK).body(saldo);
+
         }catch (RuntimeException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } 
     }
 
-    @GetMapping("/{id}")
-    public String getMethodName(@RequestParam String param) {
-        return new String();
+    @PostMapping("/transferir")
+    public ResponseEntity<?> transferir(@RequestBody TransferenciaRequest request){
+        try{
+            service.transferir(request.getIdOrigem(), request.getIdDestino(), request.getValor());
+
+            return ResponseEntity.ok("Transferência realizada com sucesso!");
+        } catch (IllegalArgumentException e ){
+
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (RuntimeException e){
+
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
     
 
@@ -97,6 +111,7 @@ public class ContaController {
         try{
             service.apagar(id);
             return ResponseEntity.status(HttpStatus.OK).body(apagarConta(id));
+
         } catch (RuntimeException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
