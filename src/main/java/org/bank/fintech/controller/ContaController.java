@@ -83,8 +83,22 @@ public class ContaController {
         } catch (RuntimeException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
-        
-       
+    }
+
+    @PostMapping("/transferir")
+    @Operation(summary="Realiza as transferências", description="Transfere valores entre duas contas existentes. Operação atômica")
+    public ResponseEntity<?> transferir(@RequestBody TransferenciaRequest request){
+        try{
+            service.transferir(request.getIdOrigem(), request.getIdDestino(), request.getValor());
+
+            return ResponseEntity.ok("Transferência realizada com sucesso!");
+        } catch (IllegalArgumentException e ){
+
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (RuntimeException e){
+
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
     
     @GetMapping("/{id}/extrato")
@@ -113,21 +127,16 @@ public class ContaController {
         } 
     }
 
-    @PostMapping("/transferir")
-    @Operation(summary="Realiza as transferências", description="Transfere valores entre duas contas existentes. Operação atômica")
-    public ResponseEntity<?> transferir(@RequestBody TransferenciaRequest request){
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Encerrar conta", description="Desativa a conta (Soft Delete). O histórico é mantido.")
+    public ResponseEntity<?> encerrarConta (@PathVariable Long id){
+
         try{
-            service.transferir(request.getIdOrigem(), request.getIdDestino(), request.getValor());
-
-            return ResponseEntity.ok("Transferência realizada com sucesso!");
-        } catch (IllegalArgumentException e ){
-
-            return ResponseEntity.badRequest().body(e.getMessage());
+            service.encerrar(id);
+            return ResponseEntity.ok("Conta encerrada com sucesso!");
         } catch (RuntimeException e){
-
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
-
     }
 
