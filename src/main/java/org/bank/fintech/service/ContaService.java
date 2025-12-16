@@ -28,6 +28,10 @@ public class ContaService {
     
 
         Conta conta = repository.findById(id).orElseThrow(()-> new RuntimeException("ERRO! Conta não encontrada"));
+
+        if(conta.getAtivo() == false){
+            throw new IllegalArgumentException("ERRO! Conta inativa! Operação não realizada!");
+        }
             
         Double SaldoAtual = conta.getSaldo();
 
@@ -46,6 +50,10 @@ public class ContaService {
             throw new IllegalArgumentException("ERRO! O valor do saque deve ser positivo!");
         }
         Conta conta = repository.findById(id).orElseThrow(()-> new RuntimeException("ERRO! Conta não encontrada"));
+
+        if(conta.getAtivo() == false){
+            throw new IllegalArgumentException("ERRO! Conta inativa! Operação não realizada!");
+        }
         
         if (conta.getSaldo() < valor){
             throw new IllegalArgumentException("ERRO! Saldo insuficiente para realizar saque!");
@@ -116,6 +124,13 @@ public class ContaService {
 
         Conta destino = repository.findById(idDestino).orElseThrow(() -> new RuntimeException("ERRO! Conta de Destino não encontrada!"));
 
+        if(origem.getAtivo() == false){
+            throw new IllegalArgumentException("ERRO! Conta inativa! Operação não realizada!");
+        }
+        if(destino.getAtivo() == false){
+            throw new IllegalArgumentException("ERRO! Conta inativa! Operação não realizada!");
+        }
+
         if (origem.getSaldo() < valor){
             throw new IllegalArgumentException("ERRO! Saldo insuficiente para transferência!");
         }
@@ -134,6 +149,14 @@ public class ContaService {
     
         transacaoRepository.save(historicoOrigem);
     
+    }
+
+    public void encerrar(Long id){
+        Conta conta = repository.findById(id).orElseThrow(()-> new RuntimeException("ERRO! Conta não encontrada!"));
+
+        conta.setAtivo(false);
+
+        repository.save(conta);
     }
 
 }
