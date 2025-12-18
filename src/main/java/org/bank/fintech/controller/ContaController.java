@@ -7,7 +7,6 @@ import org.bank.fintech.dto.SaqueRequest;
 import org.bank.fintech.dto.TransferenciaRequest;
 import org.bank.fintech.model.Conta;
 import org.bank.fintech.service.ContaService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,8 +35,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RequestMapping("/contas")
 @Tag(name = "Gestão de contas bancárias!", description = "Endpoints para criação, movimentação e consultas de contas bancárias!")
 public class ContaController {
-    @Autowired
-    private ContaService service;
+    
+    private final ContaService service;
+
+    public ContaController(ContaService service){
+        this.service = service;
+    }
 
 
     @PostMapping
