@@ -1,6 +1,12 @@
 package org.bank.fintech.dto;
 import org.bank.fintech.model.*;
 import java.util.*;
+import lombok.Data;
+
+import lombok.*;
+
+@Data
+@NoArgsConstructor
 public class ExtratoResponse {
     
     private String titular;
@@ -12,17 +18,5 @@ public class ExtratoResponse {
         this.titular = titular;
         this.saldoAtual = saldoAtual;
         this.historico = historico;
-    }
-
-    public String getTitular(){
-        return titular;
-    }
-
-    public Double getSaldoAtual(){
-        return saldoAtual;
-    }
-    
-    public List<Transacao> getHistorico(){
-        return historico;
     }
 }
