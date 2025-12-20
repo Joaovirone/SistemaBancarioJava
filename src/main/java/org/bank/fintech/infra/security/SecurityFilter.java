@@ -1,4 +1,4 @@
-import org.bank.fintech.infra.security.*;
+package org.bank.fintech.infra.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
