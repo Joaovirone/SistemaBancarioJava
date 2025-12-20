@@ -1,9 +1,11 @@
-/*package org.bank.fintech.dto;
+package org.bank.fintech.dto;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 
 public class CriarContaRequest {
     
     @NotBlank String titular;
-    @CPF String cpf;
+    @Valid String cpf;
     Double valorDepositoInicial;
 }
-*/
