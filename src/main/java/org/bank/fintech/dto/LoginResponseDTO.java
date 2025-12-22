@@ -1,5 +1,14 @@
 package org.bank.fintech.dto;
 
-public record LoginResponseDTO (String token) {
-    
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+public class LoginResponseDTO  {
+    String token;
 }
