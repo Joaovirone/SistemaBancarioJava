@@ -6,6 +6,7 @@ import javax.management.RuntimeErrorException;
 
 import org.bank.fintech.model.Usuario;
 import org.bank.fintech.dto.ExtratoResponse;
+import org.bank.fintech.infra.RecursoNaoEncontradoException;
 import org.bank.fintech.model.Conta;
 import org.bank.fintech.model.TipoTransacao;
 import org.bank.fintech.model.Transacao;
@@ -40,7 +41,7 @@ public class ContaService {
     
         log.info("Iniciando método de DEPÓSITO de R$ {} na conta ID: {}", valor, id);
 
-        Conta conta = repository.findById(id).orElseThrow(()-> new RuntimeException("ERRO! Conta não encontrada"));
+        Conta conta = repository.findById(id).orElseThrow(()-> new RecursoNaoEncontradoException("ERRO! Conta não encontrada"));
 
         if(conta.getAtivo() == false){
             throw new IllegalArgumentException("ERRO! Conta inativa! Operação não realizada!");
@@ -65,7 +66,7 @@ public class ContaService {
 
         log.info("Iniciando método de SAQUE no valor de {} na conta ID: {}", valor, id);
 
-        Conta conta = repository.findById(id).orElseThrow(()-> new RuntimeException("ERRO! Conta não encontrada"));
+        Conta conta = repository.findById(id).orElseThrow(()-> new RecursoNaoEncontradoException("ERRO! Conta não encontrada"));
 
         if(conta.getAtivo() == false){
             log.warn("Método de SAQUE não foi realizado devida a CONTA ID |{}| estar inativa", id);
@@ -96,7 +97,7 @@ public class ContaService {
 
         log.info("Iniciando método de CONSULTAR EXTRATO na conta ID: {}", id);
 
-        Conta conta = repository.findById(id).orElseThrow(()-> new RuntimeException("ERRO! Conta não encontrada!"));
+        Conta conta = repository.findById(id).orElseThrow(()-> new RecursoNaoEncontradoException("ERRO! Conta não encontrada!"));
 
         validarDonoDaConta(conta);
 
@@ -157,7 +158,7 @@ public class ContaService {
 
         log.info("Iniciando método de CONSULTAR SALDO na conta ID: {}",id);
 
-        Conta conta = repository.findById(id).orElseThrow(() -> new RuntimeException("ERRO! Conta não encontrada!"));
+        Conta conta = repository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("ERRO! Conta não encontrada!"));
 
         validarDonoDaConta(conta);
 
@@ -176,7 +177,7 @@ public class ContaService {
         }
         else{
             log.warn("Não foi possível completar a operação pois a conta ID: {} não foi encontrada", id);
-            throw new RuntimeException("ERRO! Não é possível apagar. Conta não encontrada");
+            throw new RecursoNaoEncontradoException("ERRO! Não é possível apagar. Conta não encontrada");
         }
 
         
@@ -196,8 +197,8 @@ public class ContaService {
             throw new IllegalArgumentException("ERRO! Conta de Origem e Destinão não podem ser iguais!");
         }
 
-        Conta origem = repository.findById(idOrigem).orElseThrow(()-> new RuntimeException("ERRO! Conta de Origem não encontrada!"));
-        Conta destino = repository.findById(idDestino).orElseThrow(() -> new RuntimeException("ERRO! Conta de Destino não encontrada!"));
+        Conta origem = repository.findById(idOrigem).orElseThrow(()-> new RecursoNaoEncontradoException("ERRO! Conta de Origem não encontrada!"));
+        Conta destino = repository.findById(idDestino).orElseThrow(() -> new RecursoNaoEncontradoException("ERRO! Conta de Destino não encontrada!"));
 
         validarDonoDaConta(origem);
 
@@ -233,7 +234,7 @@ public class ContaService {
     public void encerrar(Long id){
 
         log.info("Iniciando método de ENCERRAR na conta ID: {}", id);
-        Conta conta = repository.findById(id).orElseThrow(()-> new RuntimeException("ERRO! Conta não encontrada!"));
+        Conta conta = repository.findById(id).orElseThrow(()-> new RecursoNaoEncontradoException("ERRO! Conta não encontrada!"));
 
         validarDonoDaConta(conta);
 
@@ -246,7 +247,7 @@ public class ContaService {
 
         log.info("Iniciando método de ATUALIZAR CONTA na conta ID: {}", id);
 
-        Conta conta = repository.findById(id).orElseThrow(()-> new RuntimeException("ERRO! Conta não encontrada."));
+        Conta conta = repository.findById(id).orElseThrow(()-> new RecursoNaoEncontradoException("ERRO! Conta não encontrada."));
 
         validarDonoDaConta(conta);
 
@@ -274,7 +275,7 @@ public class ContaService {
         }
 
         if (!conta.getUsuario().getId().equals(usuarioLogado.getId())) {
-            throw new RuntimeException("ACESSO NEGADO: Você não tem permissão para acessar essa conta."); 
+            throw new RecursoNaoEncontradoException("ACESSO NEGADO: Você não tem permissão para acessar essa conta."); 
         }
     }
 }
