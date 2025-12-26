@@ -276,4 +276,12 @@ public class ContaService {
             throw new RecursoNaoEncontradoException("ACESSO NEGADO: Você não tem permissão para acessar essa conta."); 
         }
     }
+    public List<Conta> listarContas(){
+        Usuario usuarioLogado = getUsuarioLogado();
+
+        if (!usuarioLogado.getRole().equalsIgnoreCase("admin")){
+            throw new RecursoNaoEncontradoException("Apenas administradores podem listar todas as contas.");
+        }
+        return repository.findAll();
+    }
 }
