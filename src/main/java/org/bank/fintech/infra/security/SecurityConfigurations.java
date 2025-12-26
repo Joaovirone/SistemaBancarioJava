@@ -30,11 +30,13 @@ public class SecurityConfigurations {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
         return httpSecurity.csrf(csrf -> csrf.disable()).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(authorize-> authorize
-            //.requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-            //.requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
+            .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+            .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
             .requestMatchers("/auth/**").permitAll()
             .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
 
+            .requestMatchers(HttpMethod.POST, "/contas").authenticated()
+            
             .requestMatchers(HttpMethod.DELETE, "/contas/**").hasRole("admin")
 
             .anyRequest().authenticated()
