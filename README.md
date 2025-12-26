@@ -77,7 +77,7 @@ Com a aplicação rodando, acesse a documentação interativa para testar os end
 
 O banco é gerenciado automaticamente pelo **Flyway**. Ao iniciar, ele cria as seguintes tabelas:
 
-* **usuarios:** Credenciais e roles (ADMIN/USER).
+* **usuarios:** Credenciais e roles (admin/user).
 * **conta:** Dados bancários (Saldo, Titular, CPF).
 * **transacao:** Histórico de operações (Depósitos, Saques, Transferências).
 
@@ -88,7 +88,7 @@ O banco é gerenciado automaticamente pelo **Flyway**. Ao iniciar, ele cria as s
 **POST** `/contas`
 ```json
 {
-  "titular": "João da Silva",
+  "titular": "Padre de Pedro",
   "cpf": "123.456.789-00",
   "dataDeNascimento": "1990-05-20",
   "valorInicial": 100.00
