@@ -2,8 +2,6 @@ package org.bank.fintech.service;
 
 import java.util.List;
 
-import javax.management.RuntimeErrorException;
-
 import org.bank.fintech.model.Usuario;
 import org.bank.fintech.dto.ExtratoResponse;
 import org.bank.fintech.infra.exception.RecursoNaoEncontradoException;

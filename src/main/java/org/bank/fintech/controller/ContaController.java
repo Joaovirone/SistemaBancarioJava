@@ -52,7 +52,7 @@ public class ContaController {
             Conta novaConta = new Conta();
             novaConta.setTitular(dados.getTitular());
             novaConta.setCpf(dados.getCpf());
-            novaConta.setDataNascimento(dados.getDataNascimento());
+            novaConta.setDataDeNascimento(dados.getDataNascimento());
 
             Conta contaCriada = service.criar(novaConta,dados.getValorInicial());
 

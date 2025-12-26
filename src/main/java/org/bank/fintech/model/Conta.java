@@ -1,8 +1,7 @@
 package org.bank.fintech.model;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
+
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -18,6 +17,7 @@ import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 
 //Model: Representa a tabela do banco de dados no ambiente JAVA.
 //As classes aqui devem ser "burras". Ou seja, apenas dados (private attributes) e formas de acessá-los (Getters/Setters)
@@ -39,14 +39,14 @@ public class Conta{
     private double saldo;
 
     @Column(nullable=false)
-    private LocalDate dataNascimento;
+    private LocalDate dataDeNascimento;
 
     @NotBlank(message="O nome do titular é obrigatório.")
     @Column(nullable=false, unique=true)
     private String titular;
 
     @NotBlank(message="O CPF é obrigatório.")
-    @Pattern(regexp="\\d{3}\\.\\d{3}\\.\\d{3}\\-\\{2}\\", message="O CPF deve estar no formato 000.000.000.00")
+    @Pattern(regexp="\\d{3}\\.\\d{3}\\.\\d{3}\\-\\d{2}\\", message="O CPF deve estar no formato 000.000.000.00")
     @Column(nullable=false, unique=true)
     private String cpf;
 
@@ -59,6 +59,7 @@ public class Conta{
     @OneToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
+
 
     
 }
