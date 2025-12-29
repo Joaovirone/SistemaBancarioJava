@@ -54,6 +54,8 @@ public class AuthenticationController {
         
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.getSenha());
 
+        String roleToSave = (data.getRole() != null && !data.getRole().isBlank()) ? data.getRole().toUpperCase():"USER";
+
         Usuario newUSer = new Usuario(null, data.getLogin(), encryptedPassword, data.getRole());
         
         repository.save(newUSer);
