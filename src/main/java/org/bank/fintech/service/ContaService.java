@@ -268,7 +268,7 @@ public class ContaService {
     private void validarDonoDaConta(Conta conta){
         Usuario usuarioLogado = getUsuarioLogado();
 
-        if (usuarioLogado.getRole().equals("admin")) {
+        if (usuarioLogado.getRole().equals("ADMIN")) {
             return;
         }
 
@@ -276,12 +276,13 @@ public class ContaService {
             throw new RecursoNaoEncontradoException("ACESSO NEGADO: Você não tem permissão para acessar essa conta."); 
         }
     }
-    public List<Conta> listarContas(){
+    public List<Conta> listarTodas(){
         Usuario usuarioLogado = getUsuarioLogado();
 
-        if (!usuarioLogado.getRole().equalsIgnoreCase("admin")){
+        if (!usuarioLogado.getRole().equalsIgnoreCase("ADMIN")){
             throw new RecursoNaoEncontradoException("Apenas administradores podem listar todas as contas.");
         }
         return repository.findAll();
     }
+
 }
