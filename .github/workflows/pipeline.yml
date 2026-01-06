@@ -1,31 +1,51 @@
 name: Pipeline CI - Sistema Bancario
 
-# 1. QUANDO rodar? (Gatilhos)
 on:
   push:
-    branches: [ "master" ] # Roda quando envia código para a main
+    branches: [ "master" ]
   pull_request:
-    branches: [ "master" ] # Roda quando alguém abre um PR para a main
+    branches: [ "master" ]
+  workflow_dispatch: # Botão para rodar manualmente se precisar
 
-# 2. O QUE rodar? (Trabalhos)
 jobs:
+  # JOB 1: Testes Unitários
   build-e-testes:
-    runs-on: ubuntu-latest # O computador que o GitHub empresta
+    runs-on: ubuntu-latest
 
     steps:
-    # Passo A: Baixar o código do repositório
     - name: Checkout do código
       uses: actions/checkout@v3
 
-    # Passo B: Instalar o Java 17 (Ajuste se usar o 21)
     - name: Configurar JDK 21
       uses: actions/setup-java@v3
       with:
         java-version: '21'
         distribution: 'temurin'
-        cache: maven # Importante: Deixa o build mais rápido nas próximas vezes
+        cache: maven
 
-    # Passo C: Compilar e Rodar Testes
-    # O comando 'verify' do Maven roda testes unitários e empacota o JAR
-    - name: Build e Testes com Maven
+    # ADICIONADO: O comando que realmente testa seu código
+    - name: Rodar Testes com Maven
       run: mvn clean verify
+
+  # JOB 2: Docker
+  construir-imagem-docker:
+    needs: build-e-testes  # CORRIGIDO: Agora aponta para o nome correto do job acima
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Login do Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build e Push da Imagem
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          # IMPORTANTE: Troque 'seu-usuario' pelo seu User real do Docker Hub
+          tags: seu-usuario/fintech-api:latest
